@@ -1,0 +1,180 @@
+<h2>切片</h2>
+<p>感谢各位水友的创作，每一份作品都超用心：</p>
+
+<!-- 1. 嵌入式播放器容器（默认隐藏，居中+固定宽高比） -->
+<div id="videoPlayerContainer" style="
+    margin: 20px auto; /* 水平居中 */
+    padding: 15px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: none;
+    max-width: 800px; /* 播放器最大宽度 */
+    width: 90%; /* 适配小屏幕 */
+">
+    <h3 style="margin: 0 0 10px 0; color: #333;">
+        <span id="playerTitle">视频播放</span>
+        <button onclick="hidePlayer()" style="
+            float: right;
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            background: #ff7875;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        ">关闭播放</button>
+    </h3>
+    <!-- 宽高比容器（16:9，防止拉伸） -->
+    <div style="
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9的固定比例 */
+        height: 0;
+        overflow: hidden;
+        border-radius: 6px;
+    ">
+        <iframe id="bilibiliPlayer" 
+            style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+            "
+            src="" 
+            frameborder="0" 
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<!-- 2. 视频列表 -->
+<ul class="link-list" id="topVideoList">
+    <li class="loading-tip">正在加载视频数据...</li>
+</ul>
+
+<script>
+// 全局变量：记录当前播放的视频ID
+let currentVideoId = null;
+
+// 显示播放器并加载视频
+function showPlayer(videoId, title) {
+    const playerContainer = document.getElementById('videoPlayerContainer');
+    const playerIframe = document.getElementById('bilibiliPlayer');
+    const playerTitle = document.getElementById('playerTitle');
+    
+    // 更新标题和播放器链接
+    playerTitle.textContent = title || '视频播放';
+    // B站嵌入式播放链接（支持移动端/PC端）
+    playerIframe.src = `https://player.bilibili.com/player.html?bvid=${videoId}&high_quality=1&danmaku=1`;
+    
+    // 显示播放器容器
+    playerContainer.style.display = 'block';
+    // 滚动到播放器位置
+    playerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // 记录当前播放的视频ID
+    currentVideoId = videoId;
+}
+
+// 隐藏播放器
+function hidePlayer() {
+    const playerContainer = document.getElementById('videoPlayerContainer');
+    const playerIframe = document.getElementById('bilibiliPlayer');
+    
+    // 清空播放器链接并隐藏
+    playerIframe.src = '';
+    playerContainer.style.display = 'none';
+    currentVideoId = null;
+}
+
+// 从B站链接中提取BV号
+function extractBVId(url) {
+    if (!url) return '';
+    const match = url.match(/BV\w+/);
+    return match ? match[0] : '';
+}
+
+// 加载视频列表并渲染
+function loadTopVideos() {
+    // 1. 校验DOM元素
+    const listContainer = document.getElementById('topVideoList');
+    if (!listContainer) {
+        console.error('未找到视频列表容器（topVideoList），请检查ID是否匹配');
+        setTimeout(loadTopVideos, 500);
+        return;
+    }
+
+    // 2. 请求JSON文件（路径根据实际位置调整！）
+    fetch('三酒豌豆视频汇总.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`网络错误：${response.status}（请检查JSON文件路径）`);
+            }
+            return response.json();
+        })
+        .then(videoData => {
+            // 3. 数据校验
+            if (!videoData || !videoData[0] || !videoData[0].视频列表 || videoData[0].视频列表.length === 0) {
+                throw new Error('JSON数据格式错误或无视频内容');
+            }
+
+            // 4. 排序并取前10
+            const videoList = videoData[0].视频列表;
+            const sortedVideos = videoList.sort((a, b) => b.播放量 - a.播放量);
+            const top5Videos = sortedVideos.slice(0, 10);
+
+            // 5. 渲染列表
+            listContainer.innerHTML = '';
+            top5Videos.forEach((video, index) => {
+                const title = video.标题 || '未知标题';
+                const playCount = video.播放量 || 0;
+                const videoLink = video.视频链接 || '#';
+                const bvId = extractBVId(videoLink);
+
+                // 创建列表项
+                const listItem = document.createElement('li');
+                listItem.style.cursor = 'pointer';
+                listItem.style.padding = '8px 0';
+                
+                // 列表项内容：点击播放 + 跳转B站（备用）
+                listItem.innerHTML = `
+                    <span onclick="showPlayer('${bvId}', '${title.replace(/'/g, "\\'")}')" style="
+                        color: #e63946;
+                        text-decoration: underline;
+                    ">【播放量${playCount.toLocaleString()}】${title}</span>
+                    <a href="${videoLink}" target="_blank" style="
+                        margin-left: 10px;
+                        font-size: 14px;
+                        color: #666;
+                    ">（跳转B站）</a>
+                `;
+                
+                listContainer.appendChild(listItem);
+            });
+        })
+        .catch(error => {
+            // 错误提示
+            if (listContainer) {
+                listContainer.innerHTML = '';
+                const errorItem = document.createElement('li');
+                errorItem.className = 'error-tip';
+                errorItem.textContent = `加载失败：${error.message}`;
+                listContainer.appendChild(errorItem);
+            }
+            console.error('视频加载错误详情：', error);
+        });
+}
+
+// 确保DOM加载完成后执行
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    loadTopVideos();
+} else {
+    document.addEventListener('DOMContentLoaded', loadTopVideos);
+}
+
+// 额外兜底：延迟执行
+setTimeout(loadTopVideos, 100);
+</script>

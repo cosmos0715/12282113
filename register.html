@@ -1,0 +1,123 @@
+<div class="auth-form-container">
+    <h2>用户注册</h2>
+    <form id="registerForm" class="auth-form">
+        <div class="form-group">
+            <label for="registerType">注册方式</label>
+            <select id="registerType" name="registerType" class="register-type">
+                <option value="phone">手机号</option>
+                <option value="email">邮箱</option>
+            </select>
+        </div>
+        <div class="form-group" id="phoneGroup">
+            <label for="registerPhone">手机号</label>
+            <input type="tel" id="registerPhone" name="registerPhone" placeholder="请输入手机号">
+        </div>
+        <div class="form-group" id="emailGroup" style="display: none;">
+            <label for="registerEmail">邮箱</label>
+            <input type="email" id="registerEmail" name="registerEmail" placeholder="请输入邮箱">
+        </div>
+        <div class="form-group">
+            <label for="registerPassword">设置密码</label>
+            <input type="password" id="registerPassword" name="registerPassword" placeholder="请设置6-20位密码">
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">确认密码</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请再次输入密码">
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="auth-btn">注册</button>
+            <p class="form-tip">已有账号？<a href="javascript:switchToLogin()" class="switch-link">立即登录</a></p>
+        </div>
+    </form>
+</div>
+
+<script>
+// 切换注册方式（手机号/邮箱）
+document.getElementById('registerType')?.addEventListener('change', function() {
+    const phoneGroup = document.getElementById('phoneGroup');
+    const emailGroup = document.getElementById('emailGroup');
+    if (this.value === 'phone') {
+        phoneGroup.style.display = 'flex';
+        emailGroup.style.display = 'none';
+    } else {
+        phoneGroup.style.display = 'none';
+        emailGroup.style.display = 'flex';
+    }
+});
+
+// 切换到登录页面
+function switchToLogin() {
+    document.querySelectorAll('.nav a, .fixed-login-btn').forEach(link => link.classList.remove('active'));
+    const loginSection = document.getElementById('login');
+    const registerSection = document.getElementById('register');
+    loginSection.classList.add('active');
+    registerSection.classList.remove('active');
+    // 加载登录页面内容
+    fetch('login.html').then(res => res.text()).then(html => {
+        loginSection.innerHTML = html;
+        // 重新适配文本颜色
+        if (window.setTextColorByBackground) setTextColorByBackground();
+    });
+    // 隐藏个人信息
+    document.querySelector('.profile-section').classList.add('hidden');
+}
+
+// 注册表单提交逻辑
+document.getElementById('registerForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const registerType = document.getElementById('registerType').value;
+    let account = '';
+    let isAccountValid = false;
+
+    // 验证账号
+    if (registerType === 'phone') {
+        account = document.getElementById('registerPhone').value;
+        isAccountValid = /^1[3-9]\d{9}$/.test(account);
+        if (!isAccountValid) {
+            alert('请输入正确的手机号！');
+            return;
+        }
+    } else {
+        account = document.getElementById('registerEmail').value;
+        isAccountValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(account);
+        if (!isAccountValid) {
+            alert('请输入正确的邮箱！');
+            return;
+        }
+    }
+
+    // 验证密码
+    const password = document.getElementById('registerPassword').value;
+    const confirmPwd = document.getElementById('confirmPassword').value;
+    if (password.length < 6 || password.length > 20) {
+        alert('密码长度需在6-20位之间！');
+        return;
+    }
+    if (password !== confirmPwd) {
+        alert('两次输入的密码不一致！');
+        return;
+    }
+
+    // 模拟注册请求（实际项目需替换为后端接口）
+    alert(`注册成功！账号：${account}`);
+    // 注册成功后跳转到登录页
+    switchToLogin();
+});
+</script>
+
+<style>
+/* 复用登录页样式，补充注册特有的样式 */
+.register-type {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+}
+/* 适配深色背景 */
+body:not([style*="color: #333333"]) .register-type {
+    background-color: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    color: #f5f5f5;
+}
+</style>

@@ -1,0 +1,35 @@
+<h2>直播录像</h2>
+<p>点击日历中的日期，快速查看对应日期的直播录像（标红日期为有录像的日期）：</p>
+
+<!-- 动态日历容器 -->
+<div class="calendar-container">
+    <div class="calendar-header">
+        <button id="prev-month">← 上月</button>
+        <div class="month-display" id="month-display">2026年1月</div>
+        <button id="next-month">下月 →</button>
+    </div>
+    <table class="calendar" id="calendar-table">
+        <thead>
+            <tr>
+                <th>日</th>
+                <th>一</th>
+                <th>二</th>
+                <th>三</th>
+                <th>四</th>
+                <th>五</th>
+                <th>六</th>
+            </tr>
+        </thead>
+        <tbody id="calendar-body">
+            <tr>
+                <td colspan="7" class="loading-tip">正在加载录像数据...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 近期直播录像列表 -->
+<p>近期直播录像列表：</p>
+<ul id="recent-videos-list" class="link-list">
+    <li class="loading-tip">正在加载录像列表...</li>
+</ul>
