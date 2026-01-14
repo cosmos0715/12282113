@@ -5,414 +5,435 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>三酒豌豆</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .nav {
-            display: flex;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .clips-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-            padding: 0 10px;
-        }
-        .clip-card {
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.2s ease;
-        }
-        .clip-card:hover {
-            transform: translateY(-5px);
-        }
-        .clip-cover img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 8px 8px 0 0;
-        }
-        .clip-info {
-            padding: 12px;
-        }
-        .clip-title {
-            font-size: 16px;
-            margin: 0 0 8px;
-            line-height: 1.4;
-        }
-        .clip-title a {
-            text-decoration: none;
-        }
-        .clip-title a:hover {
-            text-decoration: underline;
-        }
-        .clip-date {
-            font-size: 14px;
-            margin: 0;
-            opacity: 0.8;
-        }
-        .empty-tip {
-            text-align: center;
-            padding: 40px 0;
-            font-size: 16px;
-        }
-
-        #videoPlayerContainer {
-            margin: 20px auto;
-            padding: 15px;
-            border-radius: 8px;
-            max-width: 800px;
-            width: 90%;
-            display: none;
-        }
-        #bilibiliPlayer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .player-ratio-box {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 6px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
+        <!-- 导航栏 -->
         <div class="nav">
             <a class="active" data-target="home">首页</a>
-            <a data-target="live" data-file="live.html">直播录像</a>
-            <a data-target="playlist" data-file="playlist.html">歌单</a>
-            <a data-target="fanwork" data-file="fanwork.html">切片</a>
-            <a data-target="message" data-file="message.html">水友留言板</a>
+            <a data-target="live">直播录像</a>
+            <a data-target="playlist">歌单</a>
+            <a data-target="fanwork">切片</a>
         </div>
 
-        <div class="profile-section">
-            <h1>三酒豌豆</h1>
-            <div class="intro">
-                风吹哪页读哪页，读到繁星落眉时。
-            </div>
-        </div>
-        
+        <!-- 首页内容 -->
         <div id="home" class="content-section active">
-            <h2>首页</h2>
-            <p>三酒直播间：<a href="https://www.douyu.com/2421040?dyshid=5429a3-5d35afbce431b49c172e5c6500081701" target="_blank" rel="noopener noreferrer" class="live-link">斗鱼2421040</a></p>
-            <p>豌豆直播间：<a href="https://www.douyu.com/12282113?dyshid=5429a3-5d35afbce431b49c172e5c6500081701" target="_blank" rel="noopener noreferrer" class="live-link">斗鱼12282113</a></p>
+            <div class="avatar-container" onclick="window.open('https://www.douyu.com/12282113', '_blank')">
+                <div class="avatar-circle">
+                    <img src="bg-illustration.png" alt="三酒豌豆头像">
+                </div>
+            </div>
+            
+            <h2 style="text-align: center; margin: 20px 0;">
+            <p style="transition: all 0.3s ease; margin: 8px 0;">
+            三酒直播间：<a href="https://www.douyu.com/2421040?dyshid=5429a3-5d35afbce431b49c172e5c6500081701" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #000000; transition: all 0.3s ease;">斗鱼2421040</a>
+            </p>
+            <p style="transition: all 0.3s ease; margin: 8px 0;">
+            豌豆直播间：<a href="https://www.douyu.com/12282113?dyshid=5429a3-5d35afbce431b49c172e5c6500081701" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #000000; transition: all 0.3s ease;">斗鱼12282113</a>
+            </p>
+            <p style="transition: all 0.3s ease; margin: 8px 0;">
+            三酒抖音：<a href="https://www.douyin.com/user/MS4wLjABAAAAHO0fnDCIQzg1-jKF_z9mStnHHOHmnaFVTMNSwjeOgw8?from_tab_name=main&showTab=like" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #000000; transition: all 0.3s ease;">三酒</a>
+            </p>
+            <p style="transition: all 0.3s ease; margin: 8px 0;">
+            豌豆抖音：<a href="https://www.douyin.com/user/MS4wLjABAAAAg4UNeurtTSyH52owjtEjlrTIMhbk1ipI3PzP-yQfREM?from_tab_name=main" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: #000000; transition: all 0.3s ease;">绝世狂花</a>
+            </p>
+            </h2>
+
+        <!-- 新增的样式代码，实现悬停放大效果 -->
+        <style>
+        /* 鼠标悬停在p标签上时，文字放大 */
+         h2 p:hover {
+        transform: scale(1.1); /* 放大到原来的1.1倍，可自行调整数值 */
+        cursor: default; /* 鼠标样式为默认，可选 */
+        }
+        /* 鼠标悬停在链接上时，链接文字也放大（可选） */
+        h2 a:hover {
+        transform: scale(1.1);
+        }
+        </style>            
+            </h2>
         </div>
         
-        <div id="live" class="content-section"></div>
-        <div id="playlist" class="content-section"></div>
-        <div id="clips" class="content-section"></div>
-        <div id="fanwork" class="content-section"></div>
-        <div id="message" class="content-section"></div>
-    </div>
+        <!-- 直播录像内容 -->
+        <div id="live" class="content-section">
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <button id="prev-month">上一月</button>
+                    <h3 id="month-display"></h3>
+                    <button id="next-month">下一月</button>
+                </div>
+                <table class="calendar">
+                    <thead>
+                        <tr>
+                            <th>日</th>
+                            <th>一</th>
+                            <th>二</th>
+                            <th>三</th>
+                            <th>四</th>
+                            <th>五</th>
+                            <th>六</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-body"></tbody>
+                </table>
+            </div>
+            <h3 style="text-align: center; margin: 20px 0;">近期直播录像</h3>
+            <ul class="link-list" id="recent-videos-list"></ul>
+        </div>
+        
+        <!-- 歌单内容 -->
+        <div id="playlist" class="content-section">
+            <h2 style="text-align: center; margin-bottom: 20px;">暂未更新 🎵</h2>
+        </div>
+        
+        <!-- 切片内容 -->
+        <div id="fanwork" class="content-section">
+            <h2 style="text-align: center; margin-bottom: 20px;">切片</h2>
+            <p style="text-align: center; margin-bottom: 20px;">感谢各位水友的创作，每一份作品都超用心：</p>
+
+            <!-- 嵌入式播放器容器 -->
+            <div id="videoPlayerContainer">
+                <h3 style="margin: 0 0 10px 0;">
+                    <span id="playerTitle">视频播放</span>
+                    <button onclick="hidePlayer()" style="
+                        float: right;
+                        padding: 4px 8px;
+                        border: none;
+                        border-radius: 4px;
+                        background: #ff7875;
+                        color: white;
+                        cursor: pointer;
+                        font-size: 14px;
+                    ">关闭播放</button>
+                </h3>
+                <!-- 宽高比容器 -->
+                <div class="player-ratio-box">
+                    <iframe id="bilibiliPlayer" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- 视频列表 -->
+            <ul class="link-list" id="topVideoList">
+                <li class="loading-tip">正在加载视频数据...</li>
+            </ul>
+        </div>
+        
 
     <script>
-        // 文本颜色适配
-        function setTextColorByBackground() {
-            const bodyStyle = getComputedStyle(document.body);
-            const bgGradient = bodyStyle.backgroundImage;
-            const firstColorMatch = bgGradient.match(/#[0-9a-fA-F]{6}/);
-            const bgColor = firstColorMatch ? firstColorMatch[0] : '#ffffff';
+        // ========== 通用功能：内容区域切换 ==========
+        document.querySelectorAll('.nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                // 移除所有激活状态
+                document.querySelectorAll('.nav a').forEach(item => item.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+                // 激活当前标签和对应区域
+                this.classList.add('active');
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
 
-            const hexToRgb = (hex) => {
-                const r = parseInt(hex.slice(1, 3), 16);
-                const g = parseInt(hex.slice(3, 5), 16);
-                const b = parseInt(hex.slice(5, 7), 16);
-                return { r, g, b };
-            };
+        // ========== 切片模块功能 ==========
+        // 全局变量：记录当前播放的视频ID
+        let currentVideoId = null;
 
-            const { r, g, b } = hexToRgb(bgColor);
-            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-            const isLightBg = brightness > 128;
-            const textColor = isLightBg ? '#333333' : '#f5f5f5';
-            const linkColor = isLightBg ? '#0078ff' : '#4db8ff';
-            const activeLinkColor = isLightBg ? '#0056b3' : '#2a91ff';
-            const videoLinkColor = '#ff0000';
-            const buttonBgColor = isLightBg ? 'rgba(0, 120, 255, 0.2)' : 'rgba(77, 184, 255, 0.3)';
-            const buttonHoverBgColor = isLightBg ? 'rgba(0, 120, 255, 0.4)' : 'rgba(77, 184, 255, 0.5)';
-
-            // 基础文本颜色
-            document.body.style.color = textColor;
-            document.querySelectorAll('h1, h2, h3').forEach(el => el.style.color = textColor);
+        // 显示播放器并加载视频
+        function showPlayer(videoId, title) {
+            const playerContainer = document.getElementById('videoPlayerContainer');
+            const playerIframe = document.getElementById('bilibiliPlayer');
+            const playerTitle = document.getElementById('playerTitle');
             
-            // 导航链接
-            document.querySelectorAll('.nav a').forEach(el => {
-                el.style.color = linkColor;
-                if (el.classList.contains('active')) el.style.color = activeLinkColor;
-            });
+            // 更新标题和播放器链接
+            playerTitle.textContent = title || '视频播放';
+            // B站嵌入式播放链接（支持移动端/PC端）
+            playerIframe.src = `https://player.bilibili.com/player.html?bvid=${videoId}&high_quality=1&danmaku=1`;
             
-            // 通用链接
-            document.querySelectorAll('.link-list li a, .live-link').forEach(el => el.style.color = linkColor);
+            // 显示播放器容器
+            playerContainer.style.display = 'block';
+            // 滚动到播放器位置
+            playerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
-            // 日历样式
-            document.querySelectorAll('.calendar th, .calendar td a:not(.has-video a)').forEach(el => el.style.color = textColor);
-            document.querySelectorAll('.calendar td.disabled a').forEach(el => el.style.color = isLightBg ? '#999' : '#666');
-            document.querySelectorAll('.calendar td.today a:not(.has-video a)').forEach(el => {
-                el.style.backgroundColor = isLightBg ? 'rgba(0, 120, 255, 0.3)' : 'rgba(77, 184, 255, 0.3)';
-            });
-            
-            // 日历按钮
-            document.querySelectorAll('.calendar-header button').forEach(el => {
-                el.style.backgroundColor = buttonBgColor;
-                el.style.color = linkColor;
-                el.addEventListener('mouseover', () => el.style.backgroundColor = buttonHoverBgColor);
-                el.addEventListener('mouseout', () => el.style.backgroundColor = buttonBgColor);
-            });
-            
-            // 提示文本
-            document.querySelectorAll('.loading-tip').forEach(el => el.style.color = isLightBg ? '#666' : '#ddd');
-            document.querySelectorAll('.error-tip').forEach(el => el.style.color = videoLinkColor);
-            
-            // 切片播放器
-            document.querySelectorAll('#videoPlayerContainer').forEach(el => {
-                el.style.background = isLightBg ? '#fff' : 'rgba(0,0,0,0.8)';
-                el.style.boxShadow = isLightBg ? '0 2px 10px rgba(0,0,0,0.1)' : '0 2px 10px rgba(255,255,255,0.1)';
-            });
-            document.querySelectorAll('#playerTitle').forEach(el => el.style.color = isLightBg ? '#333' : '#f5f5f5');
+            // 记录当前播放的视频ID
+            currentVideoId = videoId;
         }
 
-        // 加载外部HTML内容
-        async function loadSectionContent(targetId, filePath) {
-            const targetSection = document.getElementById(targetId);
-            try {
-                const response = await fetch(filePath);
-                if (!response.ok) throw new Error(`加载失败：${response.status}`);
-                const html = await response.text();
-                targetSection.innerHTML = html;
-                
-                // 初始化对应模块
-                if (targetId === 'live') await initLiveCalendar();
-                if (targetId === 'clips') initClipsPage();
-                
-                // 重新适配颜色
-                setTextColorByBackground();
-                
-                // 执行fanwork页面脚本
-                if (targetId === 'fanwork') {
-                    targetSection.querySelectorAll('script').forEach(oldScript => {
-                        const newScript = document.createElement('script');
-                        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                        newScript.textContent = oldScript.textContent;
-                        oldScript.parentNode.replaceChild(newScript, oldScript);
+        // 隐藏播放器
+        function hidePlayer() {
+            const playerContainer = document.getElementById('videoPlayerContainer');
+            const playerIframe = document.getElementById('bilibiliPlayer');
+            
+            // 清空播放器链接并隐藏
+            playerIframe.src = '';
+            playerContainer.style.display = 'none';
+            currentVideoId = null;
+        }
+
+        // 从B站链接中提取BV号
+        function extractBVId(url) {
+            if (!url) return '';
+            const match = url.match(/BV\w+/);
+            return match ? match[0] : '';
+        }
+
+        // 加载视频列表并渲染
+        function loadTopVideos() {
+            // 1. 校验DOM元素
+            const listContainer = document.getElementById('topVideoList');
+            if (!listContainer) {
+                console.error('未找到视频列表容器（topVideoList），请检查ID是否匹配');
+                setTimeout(loadTopVideos, 500);
+                return;
+            }
+
+            // 2. 请求JSON文件（路径根据实际位置调整！）
+            fetch('三酒豌豆视频汇总.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`网络错误：${response.status}（请检查JSON文件路径）`);
+                    }
+                    return response.json();
+                })
+                .then(videoData => {
+                    // 3. 数据校验
+                    if (!videoData || !videoData[0] || !videoData[0].视频列表 || videoData[0].视频列表.length === 0) {
+                        throw new Error('JSON数据格式错误或无视频内容');
+                    }
+
+                    // 4. 排序并取前10
+                    const videoList = videoData[0].视频列表;
+                    const sortedVideos = videoList.sort((a, b) => b.播放量 - a.播放量);
+                    const top10Videos = sortedVideos.slice(0, 10);
+
+                    // 5. 渲染列表
+                    listContainer.innerHTML = '';
+                    top10Videos.forEach((video, index) => {
+                        const title = video.标题 || '未知标题';
+                        const playCount = video.播放量 || 0;
+                        const videoLink = video.视频链接 || '#';
+                        const bvId = extractBVId(videoLink);
+
+                        // 创建列表项
+                        const listItem = document.createElement('li');
+                        listItem.style.cursor = 'pointer';
+                        listItem.style.padding = '8px 0';
+                        
+                        // 列表项内容：点击播放 + 跳转B站（备用）
+                        listItem.innerHTML = `
+                            <span onclick="showPlayer('${bvId}', '${title.replace(/'/g, "\\'")}')" style="
+                                color: #e63946;
+                                text-decoration: underline;
+                            ">【播放量${playCount.toLocaleString()}】${title}</span>
+                            <a href="${videoLink}" target="_blank" style="
+                                margin-left: 10px;
+                                font-size: 14px;
+                                color: #666;
+                            ">（跳转B站）</a>
+                        `;
+                        
+                        listContainer.appendChild(listItem);
                     });
-                }
-            } catch (error) {
-                targetSection.innerHTML = `<div class="error-tip">加载失败：${error.message}</div>`;
-                console.error(error);
-            }
+                })
+                .catch(error => {
+                    // 错误提示
+                    if (listContainer) {
+                        listContainer.innerHTML = '';
+                        const errorItem = document.createElement('li');
+                        errorItem.className = 'error-tip';
+                        errorItem.textContent = `加载失败：${error.message}`;
+                        listContainer.appendChild(errorItem);
+                    }
+                    console.error('视频加载错误详情：', error);
+                });
         }
 
-        // 读取直播日期JSON
-        async function getVideoDatesFromJson() {
-            try {
-                const response = await fetch('video-dates.json');
-                if (!response.ok) throw new Error(`JSON加载失败：${response.status}`);
-                const videoDates = await response.json();
-                if (typeof videoDates !== 'object' || videoDates === null) {
-                    throw new Error('JSON格式错误（需为对象）');
-                }
-                return videoDates;
-            } catch (error) {
-                console.error('读取video-dates.json失败:', error);
-                // 兜底数据
-                return {
-                    "2025-12-24": { url: "https://example.com/live/20251224", title: "圣诞特别直播" },
-                    "2026-01-06": { url: "https://example.com/live/20260106", title: "休闲聊天直播" },
-                    "2026-01-08": { url: "https://example.com/live/20260108", title: "唱歌直播回放" },
-                    "2026-01-10": { url: "https://example.com/live/202601010", title: "聊天互动直播" },
-                    "2026-01-12": { url: "https://www.bilibili.com/video/BV1ktrhBfEuy/", title: "2026-01-12 出差阿勒泰直播" }
-                };
-            }
+        // ========== 直播录像模块功能（修复后） ==========
+        // 全局变量：存储视频日期数据和当前显示的年月
+        let videoDateData = {};
+        let currentCalendarYear = new Date().getFullYear();
+        let currentCalendarMonth = new Date().getMonth();
+
+        // 初始化近期录像列表
+        function initRecentVideosList() {
+            const listContainer = document.getElementById('recent-videos-list');
+            
+            // 请求video-dates.json文件
+            fetch('video-dates.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`请求失败：${response.status} ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(videoData => {
+                    // 保存视频数据到全局变量（供日历使用）
+                    videoDateData = videoData;
+                    
+                    // 处理JSON数据
+                    const videoList = Object.entries(videoData).map(([dateStr, info]) => ({
+                        date: new Date(dateStr),
+                        url: info.url,
+                        title: info.title
+                    }));
+
+                    // 按日期从新到旧排序
+                    videoList.sort((a, b) => b.date - a.date);
+
+                    // 截取最近5条
+                    const recent5Videos = videoList.slice(0, 5);
+
+                    // 渲染列表
+                    if (recent5Videos.length === 0) {
+                        listContainer.innerHTML = '<li class="no-data">暂无直播录像</li>';
+                        return;
+                    }
+
+                    listContainer.innerHTML = '';
+                    recent5Videos.forEach(item => {
+                        const dateStr = item.date.toLocaleDateString('zh-CN');
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<a href="${item.url}" target="_blank">${dateStr} - ${item.title}</a>`;
+                        listContainer.appendChild(listItem);
+                    });
+
+                    // 初始化日历（现在有数据了）
+                    renderCalendar(currentCalendarYear, currentCalendarMonth);
+                })
+                .catch(error => {
+                    listContainer.innerHTML = `<li class="error-tip">加载失败：${error.message}</li>`;
+                    console.error('直播录像加载错误：', error);
+                    // 即使加载失败，也渲染空日历
+                    renderCalendar(currentCalendarYear, currentCalendarMonth);
+                });
         }
 
-        // 初始化直播日历
-        async function initLiveCalendar() {
-            const prevMonthBtn = document.getElementById('prev-month');
-            const nextMonthBtn = document.getElementById('next-month');
+        // 渲染日历核心函数
+        function renderCalendar(year, month) {
             const monthDisplay = document.getElementById('month-display');
             const calendarBody = document.getElementById('calendar-body');
-            const recentVideosList = document.getElementById('recent-videos-list');
             
-            if (!monthDisplay || !calendarBody || !recentVideosList) return;
+            // 更新月份显示
+            monthDisplay.textContent = `${year}年${month + 1}月`;
             
-            let currentDate = new Date();
-            let currentYear = currentDate.getFullYear();
-            let currentMonth = currentDate.getMonth();
-            let videoDates = await getVideoDatesFromJson();
-
-            // 渲染日历
-            function renderCalendar(year, month) {
-                monthDisplay.textContent = `${year}年${month + 1}月`;
-                calendarBody.innerHTML = '';
-
-                const firstDay = new Date(year, month, 1);
-                const lastDay = new Date(year, month + 1, 0);
-                const firstDayWeek = firstDay.getDay();
-                const daysInMonth = lastDay.getDate();
-                const today = new Date();
-                const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
-                const todayDate = today.getDate();
-
-                let dayCount = 1;
-                let row = document.createElement('tr');
-
-                // 上月占位
-                for (let i = 0; i < firstDayWeek; i++) {
-                    const td = document.createElement('td');
-                    td.className = 'disabled';
-                    const prevMonthLastDay = new Date(year, month, 0).getDate();
-                    const prevMonthDay = prevMonthLastDay - firstDayWeek + i + 1;
-                    td.innerHTML = `<a href="#">${prevMonthDay}</a>`;
-                    row.appendChild(td);
-                }
-
-                // 当月日期
-                for (let i = firstDayWeek; i < 7; i++) {
-                    if (dayCount > daysInMonth) break;
-                    const td = document.createElement('td');
-                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayCount).padStart(2, '0')}`;
-                    
-                    if (videoDates[dateStr]) {
-                        td.className = 'has-video';
-                        td.innerHTML = `<a href="${videoDates[dateStr].url}" target="_blank">${dayCount}</a>`;
-                    } else {
-                        td.innerHTML = `<a href="#">${dayCount}</a>`;
-                    }
-
-                    if (isCurrentMonth && dayCount === todayDate) td.classList.add('today');
-                    row.appendChild(td);
-                    dayCount++;
-                }
-                calendarBody.appendChild(row);
-
-                // 剩余日期行
-                while (dayCount <= daysInMonth) {
-                    row = document.createElement('tr');
-                    for (let i = 0; i < 7; i++) {
-                        if (dayCount > daysInMonth) break;
-                        const td = document.createElement('td');
-                        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayCount).padStart(2, '0')}`;
+            // 获取当月第一天是星期几（0=周日，6=周六）
+            const firstDay = new Date(year, month, 1).getDay();
+            // 获取当月的总天数
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // 清空日历内容
+            calendarBody.innerHTML = '';
+            
+            // 构建日历单元格
+            let dayCount = 1;
+            let calendarHTML = '';
+            
+            // 生成6行（足够容纳所有月份的天数）
+            for (let i = 0; i < 6; i++) {
+                let row = '<tr>';
+                
+                // 生成7列（周日到周六）
+                for (let j = 0; j < 7; j++) {
+                    // 第一行：跳过前面的空白格
+                    if (i === 0 && j < firstDay) {
+                        row += '<td class="disabled"></td>';
+                    } 
+                    // 超出当月天数：填充空白格
+                    else if (dayCount > daysInMonth) {
+                        row += '<td class="disabled"></td>';
+                    } 
+                    // 正常日期格
+                    else {
+                        // 格式化日期字符串（yyyy-mm-dd），匹配JSON中的键
+                        const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayCount).padStart(2, '0')}`;
+                        // 判断当前日期是否有视频
+                        const hasVideo = videoDateData.hasOwnProperty(dateKey);
+                        // 判断是否是今天
+                        const today = new Date();
+                        const isToday = year === today.getFullYear() && 
+                                       month === today.getMonth() && 
+                                       dayCount === today.getDate();
                         
-                        if (videoDates[dateStr]) {
-                            td.className = 'has-video';
-                            td.innerHTML = `<a href="${videoDates[dateStr].url}" target="_blank">${dayCount}</a>`;
+                        // 构建日期单元格
+                        let cellClass = '';
+                        let cellContent = '';
+                        
+                        if (isToday) cellClass += ' today';
+                        if (hasVideo) cellClass += ' has-video';
+                        
+                        if (hasVideo) {
+                            // 有视频：可点击链接
+                            cellContent = `<a href="${videoDateData[dateKey].url}" target="_blank">${dayCount}</a>`;
                         } else {
-                            td.innerHTML = `<a href="#">${dayCount}</a>`;
+                            // 无视频：普通文本
+                            cellContent = dayCount;
                         }
-
-                        if (isCurrentMonth && dayCount === todayDate) td.classList.add('today');
-                        row.appendChild(td);
+                        
+                        row += `<td class="${cellClass.trim()}">${cellContent}</td>`;
                         dayCount++;
                     }
-                    calendarBody.appendChild(row);
                 }
-
-                // 下月占位
-                const remainingCells = 7 - row.children.length;
-                if (remainingCells > 0 && row.children.length > 0) {
-                    for (let i = 0; i < remainingCells; i++) {
-                        const td = document.createElement('td');
-                        td.className = 'disabled';
-                        td.innerHTML = `<a href="#">${i + 1}</a>`;
-                        row.appendChild(td);
-                    }
-                }
+                
+                row += '</tr>';
+                calendarHTML += row;
+                
+                // 如果已经显示完当月所有天数，停止生成行
+                if (dayCount > daysInMonth) break;
             }
-
-            // 渲染近期视频列表
-            function renderRecentVideosList() {
-                recentVideosList.innerHTML = '';
-
-                if (Object.keys(videoDates).length === 0) {
-                    const li = document.createElement('li');
-                    li.textContent = '暂无直播录像数据';
-                    li.style.color = getComputedStyle(document.body).color;
-                    recentVideosList.appendChild(li);
-                    return;
-                }
-
-                const sortedVideos = Object.entries(videoDates)
-                    .map(([date, data]) => ({ date, ...data }))
-                    .sort((a, b) => new Date(b.date) - new Date(a.date));
-                const recentVideos = sortedVideos.slice(0, 5);
-
-                recentVideos.forEach(video => {
-                    const li = document.createElement('li');
-                    const dateObj = new Date(video.date);
-                    const formattedDate = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
-                    li.innerHTML = `<a href="${video.url}" target="_blank">【${formattedDate}】${video.title}</a>`;
-                    recentVideosList.appendChild(li);
-                });
-            }
-
-            // 月份切换事件
-            prevMonthBtn?.addEventListener('click', () => {
-                currentMonth--;
-                if (currentMonth < 0) {
-                    currentMonth = 11;
-                    currentYear--;
-                }
-                renderCalendar(currentYear, currentMonth);
-            });
-
-            nextMonthBtn?.addEventListener('click', () => {
-                currentMonth++;
-                if (currentMonth > 11) {
-                    currentMonth = 0;
-                    currentYear++;
-                }
-                renderCalendar(currentYear, currentMonth);
-            });
-
-            // 初始化渲染
-            renderCalendar(currentYear, currentMonth);
-            renderRecentVideosList();
+            
+            // 插入日历内容
+            calendarBody.innerHTML = calendarHTML;
+            
+            // 更新当前年月全局变量
+            currentCalendarYear = year;
+            currentCalendarMonth = month;
         }
 
-             // 导航切换
-            function initNavSwitch() {
-            const navLinks = document.querySelectorAll('.nav a');
-            const contentSections = document.querySelectorAll('.content-section');
-            const profileSection = document.querySelector('.profile-section');
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    // 移除激活状态
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    contentSections.forEach(section => section.classList.remove('active'));
-                    
-                    // 设置当前激活
-                    this.classList.add('active');
-                    const targetId = this.getAttribute('data-target');
-                    const targetSection = document.getElementById(targetId);
-                    targetSection.classList.add('active');
-
-                    // 显示/隐藏个人信息
-                    profileSection.classList.toggle('hidden', targetId !== 'home');
-
-                    // 加载外部内容
-                    const filePath = this.getAttribute('data-file');
-                    if (filePath) loadSectionContent(targetId, filePath);
-
-                    // 适配颜色
-                    setTextColorByBackground();
-                });
+        // 初始化日历事件绑定
+        function initCalendarEvents() {
+            // 上一月按钮
+            document.getElementById('prev-month').addEventListener('click', () => {
+                currentCalendarMonth--;
+                if (currentCalendarMonth < 0) {
+                    currentCalendarMonth = 11;
+                    currentCalendarYear--;
+                }
+                renderCalendar(currentCalendarYear, currentCalendarMonth);
+            });
+            
+            // 下一月按钮
+            document.getElementById('next-month').addEventListener('click', () => {
+                currentCalendarMonth++;
+                if (currentCalendarMonth > 11) {
+                    currentCalendarMonth = 0;
+                    currentCalendarYear++;
+                }
+                renderCalendar(currentCalendarYear, currentCalendarMonth);
             });
         }
 
-        // 页面初始化
+        // ========== 页面初始化 ==========
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化切片视频列表
+            loadTopVideos();
+            // 初始化直播录像列表（会自动渲染日历）
+            initRecentVideosList();
+            // 初始化日历事件
+            initCalendarEvents();
+
+            // 文本颜色自适应（简化版）
+            const setTextColorByBackground = () => {
+                const bodyStyle = getComputedStyle(document.body);
+                const bgColor = bodyStyle.backgroundColor;
+                const r = parseInt(bgColor.match(/\d+/g)[0]) || 255;
+                const g = parseInt(bgColor.match(/\d+/g)[1]) || 255;
+                const b = parseInt(bgColor.match(/\d+/g)[2]) || 255;
+                const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+                const isLight = brightness > 128;
+                
+                // 可根据背景亮度调整全局文本颜色（示例）
+                document.body.style.color = isLight ? '#333' : '#f5f5f5';
+            };
             setTextColorByBackground();
-            initNavSwitch();
-            window.addEventListener('resize', setTextColorByBackground);
         });
     </script>
 </body>
