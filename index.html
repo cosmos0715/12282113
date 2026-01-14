@@ -213,7 +213,7 @@
         // 读取直播日期JSON
         async function getVideoDatesFromJson() {
             try {
-                const response = await fetch('video-dates2026.1.14.json');
+                const response = await fetch('video-dates.json');
                 if (!response.ok) throw new Error(`JSON加载失败：${response.status}`);
                 const videoDates = await response.json();
                 if (typeof videoDates !== 'object' || videoDates === null) {
@@ -417,5 +417,3 @@
     </script>
 </body>
 </html>
-
-
